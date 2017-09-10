@@ -7,7 +7,7 @@ extern "C" {
 
 #include <stdbool.h>
 
-#define error_check(C) if (__builtin_expect ((C), false))
+#define error_check(C) if (__builtin_expect ((long) (C), (long) false))
 
 /*#ifdef __cplusplus*/
 #define restrict __restrict__
