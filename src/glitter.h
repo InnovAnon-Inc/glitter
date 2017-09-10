@@ -9,9 +9,11 @@ extern "C" {
 
 #define error_check(C) if (__builtin_expect ((C), false))
 
+/*
 #ifdef __cplusplus
 #define restrict __restrict__
 #endif
+*/
 
 #ifdef __cplusplus
 }
