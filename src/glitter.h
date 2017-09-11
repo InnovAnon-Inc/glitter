@@ -7,11 +7,12 @@ extern "C" {
 
 #include <stdbool.h>
 
-#define error_check(C)   if    (__builtin_expect ((long) (C), (long) false))
-#define while_check(C,E) while (__builtin_expect ((long) (C), (long) false) && errno == (E))
+#define error_check(C)    if    (__builtin_expect ((long) (C), (long) false))
+#define while_echeck(C,E) while (__builtin_expect ((long) (C), (long) false) && errno == (E))
+#define while_check(C)    while (__builtin_expect ((long) (C), (long) false))
 
-#define if_expect(C)    if    (__builtin_expect ((long) (C), (long) true))
-#define while_expect(C) while (__builtin_expect ((long) (C), (long) true))
+#define if_expect(C)      if    (__builtin_expect ((long) (C), (long) true))
+#define while_expect(C)   while (__builtin_expect ((long) (C), (long) true))
 
 /*#ifdef __cplusplus*/
 #define restrict __restrict__
