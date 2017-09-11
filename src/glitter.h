@@ -20,7 +20,7 @@ extern "C" {
 
 /* https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html */
 #define DO_PRAGMA(x) _Pragma (#x)
-#define TODO(x) DO_PRAGMA(message ("TODO - " #x))
+#define TODO(...) DO_PRAGMA(message ("TODO - " #__VA_ARGS__))
 
 /*
 #define swallow(E,D) do { \
