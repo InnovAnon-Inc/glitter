@@ -18,6 +18,27 @@ extern "C" {
 #define restrict __restrict__
 /*#endif*/
 
+/* https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html */
+#define DO_PRAGMA(x) _Pragma (#x)
+#define TODO(x) DO_PRAGMA(message ("TODO - " #x))
+
+/*
+#define swallow(E,D) do { \
+	DO_PRAGMA (diagnostic ("push")) \
+	DO_PRAGMA (diagnostic ("ignored" #D)) \
+	(void) (E); \
+	DO_PRAGMA (diagnostic ("pop")) \
+} while (false) ;
+*/
+/*
+#define swallow(E,D) do { \
+	_Pragma ("GCC diagnostic push") \
+	DO_PRAGMA ("GCC diagnostic ignored" #D) \
+	(void) (E); \
+	_Pragma ("GCC diagnostic pop") \
+} while (false) ;
+*/
+
 #ifdef __cplusplus
 }
 #endif
