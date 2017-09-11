@@ -40,6 +40,8 @@ extern "C" {
 } while (false) ;
 */
 
+typedef int fd_t;
+
 #ifdef __cplusplus
 }
 #endif
