@@ -16,6 +16,7 @@ extern "C" {
 
 /*#ifdef __cplusplus*/
 #define restrict __restrict__
+#define inline   __inline__
 /*#endif*/
 
 /* https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html */
