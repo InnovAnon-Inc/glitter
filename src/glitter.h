@@ -56,6 +56,9 @@ TODO (hygeinic min/max macros)
 #define max(A, B) ((A) > (B) ? (A) : (B))
 #endif
 
+TODO (hygeinic ARRSZ macro)
+#define ARRSZ(A) (sizeof ((A)) / sizeof ((A)[0]))
+
 #ifdef __cplusplus
 }
 #endif
