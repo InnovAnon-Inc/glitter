@@ -46,6 +46,16 @@ typedef int fd_t;
 typedef __attribute__ ((warn_unused_result))
 int (*stdcb_t) (void *) ;
 
+TODO (hygeinic min/max macros)
+
+#ifndef min
+#define min(A, B) ((A) < (B) ? (A) : (B))
+#endif
+
+#ifndef max
+#define max(A, B) ((A) > (B) ? (A) : (B))
+#endif
+
 #ifdef __cplusplus
 }
 #endif
