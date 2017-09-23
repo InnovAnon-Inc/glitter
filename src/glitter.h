@@ -5,6 +5,7 @@
 extern "C" {
 #endif
 
+#include <limits.h>
 #include <stdbool.h>
 
 #define error_check(C)    if    (__builtin_expect ((long) (C), (long) false))
@@ -46,7 +47,7 @@ typedef int fd_t;
 typedef __attribute__ ((warn_unused_result))
 int (*stdcb_t) (void *) ;
 
-TODO (hygeinic min/max macros)
+TODO (hygienic min/max macros)
 
 #ifndef min
 #define min(A, B) ((A) < (B) ? (A) : (B))
@@ -56,8 +57,26 @@ TODO (hygeinic min/max macros)
 #define max(A, B) ((A) > (B) ? (A) : (B))
 #endif
 
-TODO (hygeinic ARRSZ macro)
+TODO (hygienic ARRSZ macro)
 #define ARRSZ(A) (sizeof ((A)) / sizeof ((A)[0]))
+
+#ifndef NBIT
+#define NBIT(N) (sizeof ((N)) * CHAR_BIT)
+#endif
+
+/* https://stackoverflow.com/questions/27393269/msb-1-bit-most-left-index-in-c */
+#ifndef fls0
+#define fls0(x, T) (NBIT (T) - __builtin_clz ((T) (x)))
+#endif
+#ifndef fls
+#define fls(x)   (fls0 ((x), unsigned int))
+#endif
+#ifndef flsl
+#define flsl(x)  (fls0 ((x), unsigned long))
+#endif
+#ifndef flsll
+#define flsll(x) (fls0 ((x), unsigned long long))
+#endif
 
 #ifdef __cplusplus
 }
