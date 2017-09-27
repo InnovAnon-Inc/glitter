@@ -3,4 +3,4 @@
 include_HEADERS = glitter.h
 #libglitter_la_CFLAGS =
 
-AM_CPPFLAGS += -D__STDC_INT64__
+AM_CPPFLAGS = -D__STDC_INT64__
