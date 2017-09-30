@@ -24,6 +24,7 @@ extern "C" {
 #define DO_PRAGMA(x) _Pragma (#x)
 /*#define TODO(...) DO_PRAGMA(message ("TODO - " #__VA_ARGS__))*/
 #define TODO(x) DO_PRAGMA(message ("TODO - " #x))
+#define CITATION(x) DO_PRAGMA(message ("Citation - " #x))
 
 /*
 #define swallow(E,D) do { \
@@ -57,8 +58,13 @@ TODO (hygienic min/max macros)
 #define max(A, B) ((A) > (B) ? (A) : (B))
 #endif
 
+#ifndef range
+#define range(MIN, MAX) ((MAX) - (MIN) + 1)
+#endif
+
 TODO (hygienic ARRSZ macro)
 #define ARRSZ(A) (sizeof ((A)) / sizeof ((A)[0]))
+#define ARRSZN(ESZ,N) ((ESZ) * (N))
 
 #ifndef NBIT
 #define NBIT(N) (sizeof ((N)) * CHAR_BIT)
