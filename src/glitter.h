@@ -25,7 +25,7 @@ extern "C" {
 /*#define TODO(...) DO_PRAGMA(message ("TODO - " #__VA_ARGS__))*/
 #define TODO(x) DO_PRAGMA(message ("TODO - " #x))
 #define CITATION(x) DO_PRAGMA(message ("Citation - " #x))
-#define CITATION(x) DO_PRAGMA(message ("N.b., - " #x))
+#define NOTE(x) DO_PRAGMA(message ("N.b., - " #x))
 
 /*
 #define swallow(E,D) do { \
