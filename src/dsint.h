@@ -8,8 +8,7 @@
 extern "C" {
 #endif
 
-#include <limits.h>
-#include <stdbool.h>
+#include <glitter.h>
 
 typedef __attribute__ ((nonnull (1), warn_unused_result))
 bool (*isfull_t) (void const *restrict arg) ;
