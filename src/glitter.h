@@ -45,6 +45,7 @@ extern "C" {
 */
 
 typedef int fd_t;
+typedef int err_t;
 
 typedef __attribute__ ((warn_unused_result))
 int (*stdcb_t) (void *) ;
