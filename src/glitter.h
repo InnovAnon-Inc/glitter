@@ -11,7 +11,7 @@ extern "C" {
 #define error_check(C)    if    (__builtin_expect ((long) (C), (long) false))
 /*#define while_echeck(C,E) while (__builtin_expect ((long) (C), (long) false) && errno == (E))*/
 #define while_echeck(C,E) while (__builtin_expect ((long) (C), (long) false) && \
-   __builtin_expect ((long) errno == (long) (E), (long) true))
+   __builtin_expect ((long) ((long) errno == (long) (E)), (long) true))
 #define while_check(C)    while (__builtin_expect ((long) (C), (long) false))
 
 #define if_expect(C)      if    (__builtin_expect ((long) (C), (long) true))
