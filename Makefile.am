@@ -17,7 +17,9 @@ if DX_COND_man
 
 # You'd probably want to post-process man pages and installed the patched
 # versions.
-dist_man1_MANS = @DX_DOCDIR@/man/man1/glitter.h.1
+dist_man1_MANS = @DX_DOCDIR@/man/man1/glitter.h.1 @DX_DOCDIR@/man/man1/dsint.h.1 @DX_DOCDIR@/man/man1/etry.h.1 @DX_DOCDIR@/man/man1/glitter.c.1
+# TODO wildcards would be nice here
+#_home_momobiblebender_src_glitter_src_.1
 
 $(dist_man1_MANS): doxygen-doc
 
