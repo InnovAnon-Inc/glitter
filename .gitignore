@@ -49,6 +49,9 @@ debian/
 # pkg-config
 *.pc
 
+# doxygen
+doxygen-doc
+
 
 
 # Miserable desktop garbage
