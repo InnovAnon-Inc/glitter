@@ -27,5 +27,5 @@ endif
 
 MOSTLYCLEANFILES = $(DX_CLEANFILES)
 
-EXTRA_DIST += $(DX_CONFIG) @DX_DOCDIR@/man @DX_DOCDIR@/html @DX_DOCDIR@/latex @DX_DOCDIR@/libglitter.pdf
+EXTRA_DIST += $(DX_CONFIG) @DX_DOCDIR@/man @DX_DOCDIR@/html @DX_DOCDIR@/latex @DX_DOCDIR@/glitter.pdf
 
