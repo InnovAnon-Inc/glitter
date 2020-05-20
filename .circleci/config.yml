@@ -6,6 +6,7 @@ jobs:
     parallelism: 4
     steps:
       - checkout # check out the code in the project directory
+      - run: apt-fast install -qy git autoconf automake libtool pkgconf dh-make devscripts doxygen-latex graphviz
       - run: PACKAGE=`basename ${PWD,,}`
       - run: revisioncount=`git log --oneline | wc -l`
       - run: projectversion=`git describe --tags --long`
