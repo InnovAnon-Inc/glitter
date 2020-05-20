@@ -29,14 +29,24 @@ extern "C" {
 /*#include <stdio.h>*/
 #include <setjmp.h>
 
-/* For the full documentation and explanation of the code below, please refer to
- * http://www.di.unipi.it/~nids/docs/longjump_try_trow_catch.html
- */
+#include <glitter.h>
 
+/* For the full documentation and explanation of the code below, please refer to */
+CITATION(http://www.di.unipi.it/~nids/docs/longjump_try_trow_catch.html)
+
+/** try control structure for C */
 #define TRY do { jmp_buf ex_buf__; switch( setjmp(ex_buf__) ) { case 0: while(1) {
+
+/** catch control structure for C */
 #define CATCH(x) break; case x:
+
+/** finally control structure for C */
 #define FINALLY break; } default: {
+
+/** end-try control structure for C */
 #define YRT break; } } } while(0)
+
+/** throw control structure for C */
 #define THROW(x) longjmp(ex_buf__, x)
 
 #ifdef __cplusplus
@@ -44,3 +54,4 @@ extern "C" {
 #endif
 
 #endif /*!_TRY_THROW_CATCH_H_*/
+
