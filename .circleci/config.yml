@@ -9,8 +9,9 @@ jobs:
       #- run: git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/$REPONAME.git
       - run:
           command: |
-            cd glitter
-            export PACKAGE=`basename ${PWD,,}` >> $BASH_ENV
+            #cd glitter
+            #export PACKAGE=`basename ${PWD,,}` >> $BASH_ENV
+            export PACKAGE=glitter
             #- run: revisioncount=`git log --oneline | wc -l`
             #- run: projectversion=`git describe --tags --long`
             #- run: cleanversion=${projectversion%%-*}
