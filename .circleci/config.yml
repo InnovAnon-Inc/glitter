@@ -11,8 +11,6 @@ jobs:
             set -exu
             apt-fast install golang
             go get -u github.com/tcnksm/ghr
-            find /usr -iname \*ghr\*
-            command -v ghr
       - run:
           command: |
             set -exu
@@ -74,7 +72,7 @@ jobs:
             ARTIFACTS="*.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz"
             #cp -v $ARTIFACTS $OLDDIR
             #cd               $OLDDIR
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} $ARTIFACTS
+            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} $ARTIFACTS
 
       #- store_artifacts:
       #    path: /tmp/build/${PACKAGE}/${VERSION}/*.buildinfo
