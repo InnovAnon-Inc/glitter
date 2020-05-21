@@ -73,8 +73,11 @@ jobs:
             #cp -v $ARTIFACTS $OLDDIR
             #cd               $OLDDIR
             #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} $ARTIFACTS
-            for k in *.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz ; do
-            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} $k
+            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} \
+               ${PACKAGE}-${VERSION}.tar.xz
+            for k in *.buildinfo *.changes *.dsc *.deb ; do
+            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}         ${VERSION} \
+               $k
             done
 
       #- store_artifacts:
