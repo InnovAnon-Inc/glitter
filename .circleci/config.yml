@@ -20,7 +20,7 @@ jobs:
             PACKAGE=${CIRCLE_PROJECT_REPONAME,,}
 
             revisioncount=`git log --oneline | wc -l`
-            projectversion=`git describe --tags --long` || projectversion=1
+            projectversion=`git describe --tags --long`
             cleanversion=${projectversion%%-*}
             VERSION="$cleanversion.$revisioncount"
 
