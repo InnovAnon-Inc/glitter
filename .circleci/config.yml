@@ -15,15 +15,17 @@ jobs:
           command: |
             set -exu
             #OLDDIR=$PWD
-            git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
+            #git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
+            git clone --recursive https://github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
             cd                                                               ${CIRCLE_PROJECT_REPONAME}
             PACKAGE=${CIRCLE_PROJECT_REPONAME,,}
 
             [ ! -z `git tag` ] || git tag 1.0
 
             revisioncount=`git log --oneline | wc -l`
-            projectversion=`git describe --tags --long`
-            cleanversion=${projectversion%%-*}
+            #projectversion=`git describe --tags --long`
+            #cleanversion=${projectversion%%-*}
+            cleanversion=`git describe --tags --long | sed 's/\([^.]+\.[^.]+\)/&/'`
             VERSION="$cleanversion.$revisioncount"
             echo $VERSION
 
