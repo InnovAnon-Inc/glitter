@@ -13,10 +13,10 @@ jobs:
       - run:
           command: |
             set -exu
-            #OLDDIR=$PWD
             #git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
             git clone --recursive https://github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
             cd                                                               ${CIRCLE_PROJECT_REPONAME}
+            OLDDIR=$PWD
             PACKAGE=${CIRCLE_PROJECT_REPONAME,,}
 
             [ ! -z "`git tag`" ] || git tag v1.0
@@ -36,7 +36,10 @@ jobs:
             #tar --exclude-vcs --exclude-vcs-ignores -I'pixz -9ep'`nproc` -cf \
             #                                        ../${PACKAGE}-${VERSION}.tar.xz .
             ./configure
-            make
+            # TODO test change
+            #make
+
+            # debianize source package
             DEBFULLNAME='InnovAnon, Inc. (Ministries)'     \
             dh_make                                        \
               --email         InnovAnon-Inc@protonmail.com \
@@ -68,12 +71,16 @@ jobs:
                   -e '/Files:.*text/d' \
                   debian/${PACKAGE}.doc-base.EX   >> debian/${PACKAGE}.doc-base
             fi
+
+            # build debian package
             dpkg-buildpackage         \
               --root-command=fakeroot \
               --compression-level=9   \
               --compression=xz        \
               --sign-key=53F31F9711F06089\!
               #--sign-key=38BBDB7C15E81F38AAF6B7E614F31DFAC260053E
+
+            # release artifacts
             cd        /tmp/build/${PACKAGE}/${VERSION}
             mkdir -v tmp
             #mv -v *.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz tmp
@@ -81,7 +88,7 @@ jobs:
             mv -v *.buildinfo *.changes *.dsc *.deb tmp
             #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} tmp
             #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete -replace v${VERSION} tmp
-            git describe --tags --long
+            (cd $OLDDIR && git describe --tags --long)
             #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -soft v${VERSION} tmp
             ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} v${VERSION} tmp
 
