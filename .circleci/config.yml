@@ -9,6 +9,10 @@ jobs:
       - run:
           command: |
             set -exu
+            echo -e "$GPG_KEY" | gpg --import-secret-keys
+      - run:
+          command: |
+            set -exu
             #OLDDIR=$PWD
             #git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
             git clone --recursive https://github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
@@ -21,7 +25,7 @@ jobs:
             #projectversion=`git describe --tags --long`
             #cleanversion=${projectversion%%-*}
             #cleanversion=`git describe --tags --long | grep -o '^[^-]*'`
-            cleanversion=`git describe --tags --long | grep -o '^v[^.]*\.[^.]*' | grep -o '[^v]'`
+            cleanversion=`git describe --tags --long | grep -o '^v[^.]*\.[^.]*' | sed s/^v//'`
             VERSION="$cleanversion.$revisioncount"
 
             mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
@@ -63,7 +67,6 @@ jobs:
                   -e '/Files:.*text/d' \
                   debian/${PACKAGE}.doc-base.EX   >> debian/${PACKAGE}.doc-base
             fi
-            echo -e "$GPG_KEY" | gpg --import-secret-keys
             dpkg-buildpackage         \
               --root-command=fakeroot \
               --compression-level=9   \
