@@ -12,6 +12,7 @@ jobs:
             apt-fast install golang
             go get -u github.com/tcnksm/ghr
             command -v ghr
+            find /usr -iname \*ghr\*
       - run:
           command: |
             set -exu
