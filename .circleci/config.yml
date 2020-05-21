@@ -57,7 +57,7 @@ jobs:
               --sign-key=38BBDB7C15E81F38AAF6B7E614F31DFAC260053E
             cd        /tmp/build/${PACKAGE}/${VERSION}
             export ARTIFACTS="*.buildinfo *.changes *.dsc *.deb" >> $BASH_ENV
-            source                                               >> $BASH_ENV
+            source                                                  $BASH_ENV
       - store_artifacts:
           path: $ARTIFACTS
       #- store_artifacts:
