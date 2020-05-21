@@ -11,7 +11,7 @@ jobs:
             set -exu
             apt-fast install golang
             go get -u github.com/tcnksm/ghr
-            [ `command -v ghr` ]
+            command -v ghr
       - run:
           command: |
             set -exu
