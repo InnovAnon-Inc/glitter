@@ -9,18 +9,17 @@ jobs:
       #- run: git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/$REPONAME.git
       - run:
           command: |
-            export PACKAGE=${CIRCLE_PROJECT_REPONAME,,}          >> $BASH_ENV
+            PACKAGE=${CIRCLE_PROJECT_REPONAME,,}
 
             revisioncount=`git log --oneline | wc -l`
             projectversion=`git describe --tags --long`
             cleanversion=${projectversion%%-*}
-            export VERSION="$cleanversion.$revisioncount"        >> $BASH_ENV
+            VERSION="$cleanversion.$revisioncount"
 
             mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
-            cp -vr .  /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
-            cd        /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
+            cp -v .   /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
             ./autogen.sh
-            echo TODO upload source package
+            tar -I'pixz -9ep'`nproc` -cf ../${PACKAGE}-${VERSION}.tar.xz
             ./configure
             make -j`nproc`
             DEBFULLNAME='InnovAnon, Inc. (Ministries)'     \
@@ -29,7 +28,7 @@ jobs:
               --copyright     mit                          \
               --docs                                       \
               --library -y --createorig
-            sed -i 's/BROKEN/1/g' debian/control
+            sed -i 's/BROKEN/1/g'                    debian/control
             sed -i 'd#^usr/share/pkgconfig/\*$#'     debian/${PACKAGE}-dev.install
             echo 'usr/lib/*/pkgconfig/*'          >> debian/${PACKAGE}-dev.install
             echo 'usr/include/*'                  >> debian/${PACKAGE}-dev.install
@@ -60,8 +59,7 @@ jobs:
               --compression=xz        \
               --sign-key=38BBDB7C15E81F38AAF6B7E614F31DFAC260053E
             cd        /tmp/build/${PACKAGE}/${VERSION}
-            export ARTIFACTS="*.buildinfo *.changes *.dsc *.deb" >> $BASH_ENV
-            source                                                  $BASH_ENV
+            ARTIFACTS="*.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz"
             go get github.com/tcnksm/ghr
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} $ARTIFACTS
 
