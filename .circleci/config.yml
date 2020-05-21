@@ -19,14 +19,7 @@ jobs:
             cd                                                               ${CIRCLE_PROJECT_REPONAME}
             PACKAGE=${CIRCLE_PROJECT_REPONAME,,}
 
-            if [ -z `git tag` ] ; then
-              git tag 1.0
-              set +e
-              git add .
-              git commit -m tagged
-              #git push origin master
-              set -e
-            fi
+            [ ! -z `git tag` ] || git tag 1.0
 
             revisioncount=`git log --oneline | wc -l`
             projectversion=`git describe --tags --long`
