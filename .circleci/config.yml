@@ -6,7 +6,6 @@ jobs:
     parallelism: 4
     steps:
       #- checkout # check out the code in the project directory
-      - run: command -v ghr
       - run:
           command: |
             set -exu
@@ -83,7 +82,7 @@ jobs:
 
             # release artifacts
             cd        /tmp/build/${PACKAGE}/${VERSION}
-            mkdir -v tmp
+            #mkdir -v tmp
             #mv -v *.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz tmp
             #mv -v *.buildinfo *.changes *.dsc *.deb *.tar.xz tmp
             #mv -v *.buildinfo *.changes *.dsc *.deb tmp
