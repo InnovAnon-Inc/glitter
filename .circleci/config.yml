@@ -20,7 +20,7 @@ jobs:
             VERSION="$cleanversion.$revisioncount"
 
             mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
-            cp -v .   /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
+            cp -vr .  /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
             ./autogen.sh
             tar -I'pixz -9ep'`nproc` -cf ../${PACKAGE}-${VERSION}.tar.xz
             ./configure
