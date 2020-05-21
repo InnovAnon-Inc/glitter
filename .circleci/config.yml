@@ -44,21 +44,21 @@ jobs:
               --copyright     mit                          \
               --docs                                       \
               --library -y --createorig
-            sed -i 's/BROKEN/1/g'                    debian/control
+            sed -i 's/BROKEN//g'                     debian/control
             sed -i 'd#^usr/share/pkgconfig/\*$#'     debian/${PACKAGE}-dev.install
             echo 'usr/lib/*/pkgconfig/*'          >> debian/${PACKAGE}-dev.install
             echo 'usr/include/*'                  >> debian/${PACKAGE}-dev.install
             if grep -q 'lib_LTLIBRARIES +=' src/Makefile.am ; then
-              echo 'usr/lib/*/*.so*'              >> debian/${PACKAGE}1.install
-              echo 'usr/lib/*/*.a*'               >> debian/${PACKAGE}1.install
+              echo 'usr/lib/*/*.so*'              >> debian/${PACKAGE}.install
+              echo 'usr/lib/*/*.a*'               >> debian/${PACKAGE}.install
             else
-              sed -i 'd#^usr/lib/\*/lib\*\.so\.\*$#' debian/${PACKAGE}1.install
+              sed -i 'd#^usr/lib/\*/lib\*\.so\.\*$#' debian/${PACKAGE}.install
             fi
             if grep -q 'bin_PROGRAMS +=' src/Makefile.am ; then
-              echo 'usr/bin/*'                    >> debian/${PACKAGE}1.install
+              echo 'usr/bin/*'                    >> debian/${PACKAGE}.install
             fi
             if [ $PACKAGE = yacs ] ; then
-              echo 'bin/*'                        >> debian/${PACKAGE}1.install
+              echo 'bin/*'                        >> debian/${PACKAGE}.install
             fi
             if [ -e doxygen.cfg ] ; then
               echo 'doxygen-doc/man/man1/*'       >> debian/manpages
@@ -75,23 +75,27 @@ jobs:
               --compression=xz        \
               --sign-key=38BBDB7C15E81F38AAF6B7E614F31DFAC260053E
             cd        /tmp/build/${PACKAGE}/${VERSION}
-            #ARTIFACTS="*.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz"
-            #cp -v $ARTIFACTS $OLDDIR
-            #cd               $OLDDIR
-            #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} $ARTIFACTS
-            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} \
-               ${PACKAGE}-${VERSION}.tar.xz
-            for k in *.buildinfo *.changes *.dsc *.deb ; do
-            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1}         ${VERSION} \
-               $k
-            done
+            mkdir -v tmp
+            #mv -v *.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz tmp
+            mv -v *.buildinfo *.changes *.dsc *.deb *.tar.xz tmp
+            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} tmp
 
-      #- store_artifacts:
-      #    path: /tmp/build/${PACKAGE}/${VERSION}/*.buildinfo
-      #- store_artifacts:
-      #    path: /tmp/build/${PACKAGE}/${VERSION}/*.changes
-      #- store_artifacts:
-      #    path: /tmp/build/${PACKAGE}/${VERSION}/*.dsc
-      #- store_artifacts:
-      #    path: /tmp/build/${PACKAGE}/${VERSION}/*.deb
+      - store_artifacts:
+          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
+      - store_artifacts:
+          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1_amd64.deb
+      - store_artifacts:
+          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-dev_${VERSION}-1_amd64.deb
+      - store_artifacts:
+          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-doc_${VERSION}-1_all.deb
+      - store_artifacts:
+          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1.dsc
+      - store_artifacts:
+          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1_amd64.changes
+      - store_artifacts:
+          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1_amd64.buildinfo
+      - store_artifacts:
+          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1.debian.tar.xz
+      - store_artifacts:
+          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}.orig.tar.xz
 
