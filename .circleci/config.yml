@@ -28,14 +28,13 @@ jobs:
             #cleanversion=`git describe --tags --long | grep -o '^[^-]*'`
             cleanversion=`git describe --tags --long | grep -o '^[^.]*\.[^.]*'`
             VERSION="$cleanversion.$revisioncount"
-            echo $VERSION
 
             mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
             cp -vr .  /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
             cd        /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
             ./autogen.sh
-            tar --exclude-vcs --exclude-vcs-ignores -I'pixz -9ep'`nproc` -cf \
-                                                    ../${PACKAGE}-${VERSION}.tar.xz .
+            #tar --exclude-vcs --exclude-vcs-ignores -I'pixz -9ep'`nproc` -cf \
+            #                                        ../${PACKAGE}-${VERSION}.tar.xz .
             ./configure
             make -j`nproc`
             DEBFULLNAME='InnovAnon, Inc. (Ministries)'     \
@@ -77,7 +76,8 @@ jobs:
             cd        /tmp/build/${PACKAGE}/${VERSION}
             mkdir -v tmp
             #mv -v *.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz tmp
-            mv -v *.buildinfo *.changes *.dsc *.deb *.tar.xz tmp
+            #mv -v *.buildinfo *.changes *.dsc *.deb *.tar.xz tmp
+            mv -v *.buildinfo *.changes *.dsc *.deb tmp
             ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} tmp
 
       - store_artifacts:
