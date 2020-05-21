@@ -25,7 +25,10 @@ jobs:
             #projectversion=`git describe --tags --long`
             #cleanversion=${projectversion%%-*}
             #cleanversion=`git describe --tags --long | grep -o '^[^-]*'`
-            cleanversion=`git describe --tags --long | grep -o '^v[^.]*\.[^.]*' | sed s/^v//`
+            git describe --tags --long
+            git describe --tags --long | grep -o '^v[^.]*\.[^.]*'
+            git describe --tags --long | grep -o '^v[^.]*\.[^.]*' | sed s/^v//
+            cleanversion="`git describe --tags --long | grep -o '^v[^.]*\.[^.]*' | sed s/^v//`"
             VERSION="$cleanversion.$revisioncount"
 
             mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
