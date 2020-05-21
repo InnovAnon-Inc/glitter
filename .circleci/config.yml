@@ -11,67 +11,57 @@ jobs:
       - run:
           command: |
             export PACKAGE=`basename ${PWD,,}` >> $BASH_ENV
-            source $BASH_ENV
-      #- run: revisioncount=`git log --oneline | wc -l`
-      #- run: projectversion=`git describe --tags --long`
-      #- run: cleanversion=${projectversion%%-*}
-      #- run: VERSION="$cleanversion.$revisioncount"
-      - run:
-          command: |
+            #- run: revisioncount=`git log --oneline | wc -l`
+            #- run: projectversion=`git describe --tags --long`
+            #- run: cleanversion=${projectversion%%-*}
+            #- run: VERSION="$cleanversion.$revisioncount"
             export VERSION=0.0 >> $BASH_ENV
             source $BASH_ENV
-      - run: mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
-      - run: git archive --format=tar --prefix=${PACKAGE}-${VERSION}/ master | xz -c1 > /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
-      - run: cd        /tmp/build/${PACKAGE}/${VERSION}
-      - run: tar xf    ${PACKAGE}-${VERSION}.tar.xz
-      - run: cd        ${PACKAGE}-${VERSION}
-      - run:
-          name:    Autogen
-          command: ./autogen.sh
-      - run:
-          name:    Configuring the project
-          command: ./configure
-      - run:
-          name:    Making the Project
-          command: make -j`nproc`
-      - run:
-          name:    Debianizing
-          command: DEBFULLNAME='InnovAnon, Inc. (Ministries)'   \
-                   dh_make                                      \
-                   --email         InnovAnon-Inc@protonmail.com \
-                   --copyright     mit                          \
-                   --docs                                       \
-                   --library -y --createorig
-      - run: sed -i 's/BROKEN/1/g' debian/control
-      - run: sed -i 'd#^usr/share/pkgconfig/\*$#'     debian/${PACKAGE}-dev.install
-      - run: echo 'usr/lib/*/pkgconfig/*'          >> debian/${PACKAGE}-dev.install
-      - run: echo 'usr/include/*'                  >> debian/${PACKAGE}-dev.install
-      - run: if grep -q 'lib_LTLIBRARIES +=' src/Makefile.am ; then
-               echo 'usr/lib/*/*.so*'              >> debian/${PACKAGE}1.install
-               echo 'usr/lib/*/*.a*'               >> debian/${PACKAGE}1.install
-             else
-               sed -i 'd#^usr/lib/\*/lib\*\.so\.\*$#' debian/${PACKAGE}1.install
-             fi
-      - run: if grep -q 'bin_PROGRAMS +=' src/Makefile.am ; then
-               echo 'usr/bin/*'                    >> debian/${PACKAGE}1.install
-             fi
-      - run: if [ $PACKAGE = yacs ] ; then
-               echo 'bin/*'                        >> debian/${PACKAGE}1.install
-             fi
-      - run: if [ -e doxygen.cfg ] ; then
-               echo 'doxygen-doc/man/man1/*'       >> debian/manpages
+            mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
+            cp -v .   /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
+            #- run: git archive --format=tar --prefix=${PACKAGE}-${VERSION}/ master | xz -c1 > /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
+            #- run: cd        /tmp/build/${PACKAGE}/${VERSION}
+            #- run: tar xf    ${PACKAGE}-${VERSION}.tar.xz
+            cd        ${PACKAGE}-${VERSION}
+            ./autogen.sh
+            ./configure
+            make -j`nproc`
+            DEBFULLNAME='InnovAnon, Inc. (Ministries)'     \
+            dh_make                                        \
+              --email         InnovAnon-Inc@protonmail.com \
+              --copyright     mit                          \
+              --docs                                       \
+              --library -y --createorig
+            sed -i 's/BROKEN/1/g' debian/control
+            sed -i 'd#^usr/share/pkgconfig/\*$#'     debian/${PACKAGE}-dev.install
+            echo 'usr/lib/*/pkgconfig/*'          >> debian/${PACKAGE}-dev.install
+            echo 'usr/include/*'                  >> debian/${PACKAGE}-dev.install
+            if grep -q 'lib_LTLIBRARIES +=' src/Makefile.am ; then
+              echo 'usr/lib/*/*.so*'              >> debian/${PACKAGE}1.install
+              echo 'usr/lib/*/*.a*'               >> debian/${PACKAGE}1.install
+            else
+              sed -i 'd#^usr/lib/\*/lib\*\.so\.\*$#' debian/${PACKAGE}1.install
+            fi
+            if grep -q 'bin_PROGRAMS +=' src/Makefile.am ; then
+              echo 'usr/bin/*'                    >> debian/${PACKAGE}1.install
+            fi
+            if [ $PACKAGE = yacs ] ; then
+              echo 'bin/*'                        >> debian/${PACKAGE}1.install
+            fi
+            if [ -e doxygen.cfg ] ; then
+              echo 'doxygen-doc/man/man1/*'       >> debian/manpages
 
-               sed -e '/Format.*sgml/d' \
-                   -e '/Files:.*sgml/d' \
-                   -e '/Format.*text/d' \
-                   -e '/Files:.*text/d' \
-                   debian/${PACKAGE}.doc-base.EX   >> debian/${PACKAGE}.doc-base
-             fi
-      - run: dpkg-buildpackage         \
-               --root-command=fakeroot \
-               --compression-level=9   \
-               --compression=xz        \
-               --sign-key=38BBDB7C15E81F38AAF6B7E614F31DFAC260053E
+              sed -e '/Format.*sgml/d' \
+                  -e '/Files:.*sgml/d' \
+                  -e '/Format.*text/d' \
+                  -e '/Files:.*text/d' \
+                  debian/${PACKAGE}.doc-base.EX   >> debian/${PACKAGE}.doc-base
+            fi
+            dpkg-buildpackage         \
+              --root-command=fakeroot \
+              --compression-level=9   \
+              --compression=xz        \
+              --sign-key=38BBDB7C15E81F38AAF6B7E614F31DFAC260053E
       - store_artifacts:
           path: /tmp/build/${PACKAGE}/${VERSION}/*.buildinfo
       - store_artifacts:
