@@ -35,8 +35,8 @@ jobs:
             ./autogen.sh
             tar --exclude-vcs --exclude-vcs-ignores -I'pixz -9ep'`nproc` -cf \
                                                     ../${PACKAGE}-${VERSION}.tar.xz .
-            ./configure
             # TODO test change
+            #./configure
             #make
 
             # debianize source package
