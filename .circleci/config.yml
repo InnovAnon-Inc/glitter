@@ -8,6 +8,7 @@ jobs:
       - checkout # check out the code in the project directory
       - run:
           command: |
+            set -exu
             apt-fast install golang
             go get -u github.com/tcnksm/ghr
             [ `command -v ghr` ]
