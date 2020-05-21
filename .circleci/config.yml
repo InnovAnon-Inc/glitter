@@ -33,6 +33,7 @@ jobs:
             cp -vr .  /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
             cd        /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
             ./autogen.sh
+            rm -v autogen.sh
             tar --exclude-vcs --exclude-vcs-ignores -I'pixz -9ep'`nproc` -cf \
                                                     ../${PACKAGE}-${VERSION}.tar.xz .
             # TODO test change
@@ -91,7 +92,18 @@ jobs:
             #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -soft v${VERSION} tmp
             #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} v${VERSION} tmp
             #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} v${VERSION} /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
+            #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
+
+            git tag v$VERSION
+            git push
+            git push --tags
+
+            github-release release --security-token $GITHUB_TOKEN --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME \
+              --tag v$VERSION
+
+            github-release upload  --security-token $GITHUB_TOKEN --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME \
+              --tag v$VERSION --name 'source package' --file /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
+
             # TODO dupload debs and friends
 
       #- store_artifacts:
