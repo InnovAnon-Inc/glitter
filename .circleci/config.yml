@@ -5,11 +5,12 @@ jobs:
       - image: innovanon/poobuntu-dev:latest
     parallelism: 4
     steps:
-      #- checkout # check out the code in the project directory
+      - checkout # check out the code in the project directory
       - run:
           command: |
+            set -exu
             #OLDDIR=$PWD
-            source $BASH_ENV
+            #source $BASH_ENV
             git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/${CIRCLECI_PROJECT_REPONAME}.git
             cd                                                               ${CIRCLECI_PROJECT_REPONAME}
             PACKAGE=${CIRCLE_PROJECT_REPONAME,,}
