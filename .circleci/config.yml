@@ -59,11 +59,13 @@ jobs:
             export ARTIFACTS="*.buildinfo *.changes *.dsc *.deb" >> $BASH_ENV
             source                                               >> $BASH_ENV
       - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/*.buildinfo
-      - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/*.changes
-      - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/*.dsc
-      - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/*.deb
+          path: $ARTIFACTS
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/*.buildinfo
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/*.changes
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/*.dsc
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/*.deb
 
