@@ -69,10 +69,13 @@ jobs:
               --compression=xz        \
               --sign-key=38BBDB7C15E81F38AAF6B7E614F31DFAC260053E
             cd        /tmp/build/${PACKAGE}/${VERSION}
-            ARTIFACTS="*.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz"
+            #ARTIFACTS="*.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz"
             #cp -v $ARTIFACTS $OLDDIR
             #cd               $OLDDIR
-            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} $ARTIFACTS
+            #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} $ARTIFACTS
+            for k in *.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz ; do
+            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} $k
+            done
 
       #- store_artifacts:
       #    path: /tmp/build/${PACKAGE}/${VERSION}/*.buildinfo
