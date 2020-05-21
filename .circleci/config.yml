@@ -23,7 +23,8 @@ jobs:
             #- run: git archive --format=tar --prefix=${PACKAGE}-${VERSION}/ master | xz -c1 > /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
             #- run: cd        /tmp/build/${PACKAGE}/${VERSION}
             #- run: tar xf    ${PACKAGE}-${VERSION}.tar.xz
-            cd        ${PACKAGE}-${VERSION}
+            #cd        ${PACKAGE}-${VERSION}
+            cd        /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
             ./autogen.sh
             ./configure
             make -j`nproc`
