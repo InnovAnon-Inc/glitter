@@ -5,11 +5,12 @@ jobs:
       - image: innovanon/poobuntu-dev:latest
     parallelism: 4
     steps:
-      - checkout # check out the code in the project directory
-      #- run: git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/$REPONAME.git
+      #- checkout # check out the code in the project directory
       - run:
           command: |
-            OLDDIR=$PWD
+            #OLDDIR=$PWD
+            git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/${CIRCLECI_PROJECT_REPONAME}.git
+            cd                                                               ${CIRCLECI_PROJECT_REPONAME}
             PACKAGE=${CIRCLE_PROJECT_REPONAME,,}
 
             revisioncount=`git log --oneline | wc -l`
@@ -61,8 +62,8 @@ jobs:
               --sign-key=38BBDB7C15E81F38AAF6B7E614F31DFAC260053E
             cd        /tmp/build/${PACKAGE}/${VERSION}
             ARTIFACTS="*.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz"
-            cp -v $ARTIFACTS $OLDDIR
-            cd               $OLDDIR
+            #cp -v $ARTIFACTS $OLDDIR
+            #cd               $OLDDIR
             go get github.com/tcnksm/ghr
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} $ARTIFACTS
 
