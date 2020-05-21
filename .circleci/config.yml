@@ -25,7 +25,8 @@ jobs:
             revisioncount=`git log --oneline | wc -l`
             #projectversion=`git describe --tags --long`
             #cleanversion=${projectversion%%-*}
-            cleanversion=`git describe --tags --long | grep -o '^[^-]*'`
+            #cleanversion=`git describe --tags --long | grep -o '^[^-]*'`
+            cleanversion=`git describe --tags --long | grep -o '^[^.]*\.[^.]*'`
             VERSION="$cleanversion.$revisioncount"
             echo $VERSION
 
