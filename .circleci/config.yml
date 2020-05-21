@@ -10,9 +10,8 @@ jobs:
           command: |
             set -exu
             #OLDDIR=$PWD
-            #source $BASH_ENV
-            git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/${CIRCLECI_PROJECT_REPONAME}.git
-            cd                                                               ${CIRCLECI_PROJECT_REPONAME}
+            git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
+            cd                                                               ${CIRCLE_PROJECT_REPONAME}
             PACKAGE=${CIRCLE_PROJECT_REPONAME,,}
 
             revisioncount=`git log --oneline | wc -l`
