@@ -2,15 +2,10 @@ version: 2.1
 jobs:
   build:
     docker: 
-      - image: innovanon/poobuntu-dev:latest
+      - image: innovanon/poobuntu-ci:latest
     parallelism: 4
     steps:
       - checkout # check out the code in the project directory
-      - run:
-          command: |
-            set -exu
-            apt-fast install golang
-            go get -u github.com/tcnksm/ghr
       - run:
           command: |
             set -exu
@@ -20,13 +15,13 @@ jobs:
             cd                                                               ${CIRCLE_PROJECT_REPONAME}
             PACKAGE=${CIRCLE_PROJECT_REPONAME,,}
 
-            [ ! -z "`git tag`" ] || git tag 1.0
+            [ ! -z "`git tag`" ] || git tag v1.0
 
             revisioncount=`git log --oneline | wc -l`
             #projectversion=`git describe --tags --long`
             #cleanversion=${projectversion%%-*}
             #cleanversion=`git describe --tags --long | grep -o '^[^-]*'`
-            cleanversion=`git describe --tags --long | grep -o '^[^.]*\.[^.]*'`
+            cleanversion=`git describe --tags --long | grep -o '^v[^.]*\.[^.]*' | grep -o '[^v]'`
             VERSION="$cleanversion.$revisioncount"
 
             mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
@@ -36,7 +31,7 @@ jobs:
             #tar --exclude-vcs --exclude-vcs-ignores -I'pixz -9ep'`nproc` -cf \
             #                                        ../${PACKAGE}-${VERSION}.tar.xz .
             ./configure
-            make -j`nproc`
+            make
             DEBFULLNAME='InnovAnon, Inc. (Ministries)'     \
             dh_make                                        \
               --email         InnovAnon-Inc@protonmail.com \
@@ -68,6 +63,7 @@ jobs:
                   -e '/Files:.*text/d' \
                   debian/${PACKAGE}.doc-base.EX   >> debian/${PACKAGE}.doc-base
             fi
+            echo -e "$GPG_KEY" | gpg --import-secret-keys
             dpkg-buildpackage         \
               --root-command=fakeroot \
               --compression-level=9   \
@@ -78,7 +74,7 @@ jobs:
             #mv -v *.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz tmp
             #mv -v *.buildinfo *.changes *.dsc *.deb *.tar.xz tmp
             mv -v *.buildinfo *.changes *.dsc *.deb tmp
-            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} tmp
+            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} tmp
 
       - store_artifacts:
           path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
