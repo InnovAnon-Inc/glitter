@@ -44,21 +44,21 @@ jobs:
               --copyright     mit                          \
               --docs                                       \
               --library -y --createorig
-            sed -i 's/BROKEN//g'                     debian/control
+            sed -i 's/BROKEN/1/g'                    debian/control
             sed -i 'd#^usr/share/pkgconfig/\*$#'     debian/${PACKAGE}-dev.install
             echo 'usr/lib/*/pkgconfig/*'          >> debian/${PACKAGE}-dev.install
             echo 'usr/include/*'                  >> debian/${PACKAGE}-dev.install
             if grep -q 'lib_LTLIBRARIES +=' src/Makefile.am ; then
-              echo 'usr/lib/*/*.so*'              >> debian/${PACKAGE}.install
-              echo 'usr/lib/*/*.a*'               >> debian/${PACKAGE}.install
+              echo 'usr/lib/*/*.so*'              >> debian/${PACKAGE}1.install
+              echo 'usr/lib/*/*.a*'               >> debian/${PACKAGE}1.install
             else
-              sed -i 'd#^usr/lib/\*/lib\*\.so\.\*$#' debian/${PACKAGE}.install
+              sed -i 'd#^usr/lib/\*/lib\*\.so\.\*$#' debian/${PACKAGE}1.install
             fi
             if grep -q 'bin_PROGRAMS +=' src/Makefile.am ; then
-              echo 'usr/bin/*'                    >> debian/${PACKAGE}.install
+              echo 'usr/bin/*'                    >> debian/${PACKAGE}1.install
             fi
             if [ $PACKAGE = yacs ] ; then
-              echo 'bin/*'                        >> debian/${PACKAGE}.install
+              echo 'bin/*'                        >> debian/${PACKAGE}1.install
             fi
             if [ -e doxygen.cfg ] ; then
               echo 'doxygen-doc/man/man1/*'       >> debian/manpages
