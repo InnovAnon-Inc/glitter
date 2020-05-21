@@ -9,7 +9,7 @@ jobs:
       - run:
           command: |
             set -exu
-            echo -e "$GPG_KEY" | gpg --import-secret-keys
+            echo -e "$GPG_KEY" | gpg --import
       - run:
           command: |
             set -exu
