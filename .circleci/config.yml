@@ -32,6 +32,7 @@ jobs:
             projectversion=`git describe --tags --long`
             cleanversion=${projectversion%%-*}
             VERSION="$cleanversion.$revisioncount"
+            echo $VERSION
 
             mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
             cp -vr .  /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
