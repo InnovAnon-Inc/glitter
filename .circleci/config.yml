@@ -25,9 +25,7 @@ jobs:
             #projectversion=`git describe --tags --long`
             #cleanversion=${projectversion%%-*}
             #cleanversion=`git describe --tags --long | grep -o '^[^-]*'`
-            git describe --tags --long
-            git describe --tags --long | grep -o '^v[^.]*\.[^.]*'
-            git describe --tags --long | grep -o '^v[^.]*\.[^.]*' | sed s/^v//
+            git describe --tags --long | grep -o '^v[^.]*\.[^.]*' || git tag v1.0
             cleanversion="`git describe --tags --long | grep -o '^v[^.]*\.[^.]*' | sed s/^v//`"
             VERSION="$cleanversion.$revisioncount"
 
