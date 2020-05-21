@@ -8,12 +8,18 @@ jobs:
       - checkout # check out the code in the project directory
       #- run: git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/$REPONAME.git
       #- run: cd $REPONAME
-      - run: export PACKAGE=`basename ${PWD,,}` >> $BASH_ENV
+      - run:
+          command: |
+            export PACKAGE=`basename ${PWD,,}` >> $BASH_ENV
+            source $BASH_ENV
       #- run: revisioncount=`git log --oneline | wc -l`
       #- run: projectversion=`git describe --tags --long`
       #- run: cleanversion=${projectversion%%-*}
       #- run: VERSION="$cleanversion.$revisioncount"
-      - run: export VERSION=0.0 >> $BASH_ENV
+      - run:
+          command: |
+            export VERSION=0.0 >> $BASH_ENV
+            source $BASH_ENV
       - run: mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
       - run: git archive --format=tar --prefix=${PACKAGE}-${VERSION}/ master | xz -c1 > /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
       - run: cd        /tmp/build/${PACKAGE}/${VERSION}
