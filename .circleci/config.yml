@@ -19,7 +19,7 @@ jobs:
             export VERSION=0.0 >> $BASH_ENV
             source $BASH_ENV
             mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
-            cp -v .   /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
+            cp -vr .  /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
             #- run: git archive --format=tar --prefix=${PACKAGE}-${VERSION}/ master | xz -c1 > /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
             #- run: cd        /tmp/build/${PACKAGE}/${VERSION}
             #- run: tar xf    ${PACKAGE}-${VERSION}.tar.xz
