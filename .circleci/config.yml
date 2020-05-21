@@ -7,6 +7,11 @@ jobs:
     steps:
       - checkout # check out the code in the project directory
       - run:
+          command:
+            apt-fast install golang
+            go get -u github.com/tcnksm/ghr
+            [ `command -v ghr` ]
+      - run:
           command: |
             set -exu
             #OLDDIR=$PWD
@@ -67,8 +72,6 @@ jobs:
             ARTIFACTS="*.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz"
             #cp -v $ARTIFACTS $OLDDIR
             #cd               $OLDDIR
-            apt-fast install golang
-            go get -u github.com/tcnksm/ghr
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} $ARTIFACTS
 
       #- store_artifacts:
