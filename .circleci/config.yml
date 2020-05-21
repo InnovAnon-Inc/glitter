@@ -85,29 +85,30 @@ jobs:
             mkdir -v tmp
             #mv -v *.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz tmp
             #mv -v *.buildinfo *.changes *.dsc *.deb *.tar.xz tmp
-            mv -v *.buildinfo *.changes *.dsc *.deb tmp
+            #mv -v *.buildinfo *.changes *.dsc *.deb tmp
             #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} tmp
             #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete -replace v${VERSION} tmp
-            (cd $OLDDIR && git describe --tags --long)
             #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -soft v${VERSION} tmp
-            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} v${VERSION} tmp
+            #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} v${VERSION} tmp
+            ~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} v${VERSION} /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
+            # TODO dupload debs and friends
 
-      - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
-      - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1_amd64.deb
-      - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-dev_${VERSION}-1_amd64.deb
-      - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-doc_${VERSION}-1_all.deb
-      - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1.dsc
-      - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1_amd64.changes
-      - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1_amd64.buildinfo
-      - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1.debian.tar.xz
-      - store_artifacts:
-          path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}.orig.tar.xz
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1_amd64.deb
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-dev_${VERSION}-1_amd64.deb
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-doc_${VERSION}-1_all.deb
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1.dsc
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1_amd64.changes
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1_amd64.buildinfo
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1.debian.tar.xz
+      #- store_artifacts:
+      #    path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}.orig.tar.xz
 
