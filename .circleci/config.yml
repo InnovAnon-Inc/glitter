@@ -21,8 +21,10 @@ jobs:
 
             mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
             cp -vr .  /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
+            cd        /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
             ./autogen.sh
-            tar -I'pixz -9ep'`nproc` -cf ../${PACKAGE}-${VERSION}.tar.xz .
+            tar --exclude-vcs --exclude-vcs-ignores -I'pixz -9ep'`nproc` -cf \
+                                                    ../${PACKAGE}-${VERSION}.tar.xz .
             ./configure
             make -j`nproc`
             DEBFULLNAME='InnovAnon, Inc. (Ministries)'     \
