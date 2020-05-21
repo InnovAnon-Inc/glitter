@@ -5,11 +5,11 @@ jobs:
       - image: innovanon/poobuntu-dev:latest
     parallelism: 4
     steps:
-      - checkout # check out the code in the project directory
-      #- run: git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/$REPONAME.git
-      #- run: cd $REPONAME
+      #- checkout # check out the code in the project directory
+      - run: git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/$REPONAME.git
       - run:
           command: |
+            cd $REPONAME
             export PACKAGE=`basename ${PWD,,}` >> $BASH_ENV
             #- run: revisioncount=`git log --oneline | wc -l`
             #- run: projectversion=`git describe --tags --long`
