@@ -9,9 +9,13 @@ jobs:
       #- run: git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/$REPONAME.git
       - run:
           command: |
-            export PACKAGE=glitter                               >> $BASH_ENV
-            export VERSION=0.0                                   >> $BASH_ENV
-            #source                                               >> $BASH_ENV
+            export PACKAGE=${CIRCLE_PROJECT_REPONAME,,}          >> $BASH_ENV
+
+            revisioncount=`git log --oneline | wc -l`
+            projectversion=`git describe --tags --long`
+            cleanversion=${projectversion%%-*}
+            export VERSION="$cleanversion.$revisioncount"        >> $BASH_ENV
+
             mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
             cp -vr .  /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
             cd        /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
@@ -58,8 +62,9 @@ jobs:
             cd        /tmp/build/${PACKAGE}/${VERSION}
             export ARTIFACTS="*.buildinfo *.changes *.dsc *.deb" >> $BASH_ENV
             source                                                  $BASH_ENV
-      - store_artifacts:
-          path: $ARTIFACTS
+            go get github.com/tcnksm/ghr
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} $ARTIFACTS
+
       #- store_artifacts:
       #    path: /tmp/build/${PACKAGE}/${VERSION}/*.buildinfo
       #- store_artifacts:
