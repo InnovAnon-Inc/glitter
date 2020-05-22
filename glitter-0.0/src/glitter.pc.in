@@ -1,0 +1,17 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+#glitter_utility=glitter-test
+
+Name: @PACKAGE_NAME@
+Description: glitter library
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir}
+#Cflags: -I${includedir}/glitter
+Cflags: -I${includedir}
+#Requires: @AX_PACKAGE_REQUIRES@
+#Requires.private: @AX_PACKAGE_REQUIRES_PRIVATE@
+Requires:
+Requires.private:
