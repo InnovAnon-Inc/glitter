@@ -19,14 +19,16 @@ jobs:
             #OLDDIR=$PWD
             PACKAGE=${CIRCLE_PROJECT_REPONAME,,}
 
-            [ ! -z "`git tag`" ] || git tag v1.0
+            majmin=`head -n1 configure.ac | grep -o '[0-9]*\.[0-9]*'`
+
+            [ ! -z "`git tag`" ] || git tag v$manmin
 
             #revisioncount=$(expr `git log --oneline | wc -l` + 1)
             revisioncount=`git log --oneline | wc -l`
             #projectversion=`git describe --tags --long`
             #cleanversion=${projectversion%%-*}
             #cleanversion=`git describe --tags --long | grep -o '^[^-]*'`
-            git describe --tags --long | grep -o '^v[^.]*\.[^.-]*' || git tag v1.0
+            git describe --tags --long | grep -o '^v[^.]*\.[^.-]*' || git tag v$majmin
             cleanversion="`git describe --tags --long | grep -o '^v[^.]*\.[^.-]*' | sed s/^v//`"
             VERSION="$cleanversion.$revisioncount"
 
@@ -35,6 +37,7 @@ jobs:
             cd        /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
 
             # make source package
+            sed -i '1s#[0-9]*\.[0-9]*#'$VERSION'#' configure.ac
             ./autogen.sh
             ./configure
             make
