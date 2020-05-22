@@ -13,22 +13,18 @@ jobs:
       - run:
           command: |
             set -exu
-            #git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
             git clone --recursive https://github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
             cd                                                               ${CIRCLE_PROJECT_REPONAME}
-            #OLDDIR=$PWD
             PACKAGE=${CIRCLE_PROJECT_REPONAME,,}
 
             majmin=`head -n1 configure.ac | grep -o '[0-9]*\.[0-9]*'`
 
-            [ ! -z "`git tag`" ] || git tag v$manmin
+            [ ! -z "`git tag`" ]                                   || git tag v$manmin
+            git describe --tags --long | grep -q '^v[^.]*\.[^.-]*' || git tag v$majmin
 
-            #revisioncount=$(expr `git log --oneline | wc -l` + 1)
             revisioncount=`git log --oneline | wc -l`
             #projectversion=`git describe --tags --long`
             #cleanversion=${projectversion%%-*}
-            #cleanversion=`git describe --tags --long | grep -o '^[^-]*'`
-            git describe --tags --long | grep -o '^v[^.]*\.[^.-]*' || git tag v$majmin
             cleanversion="`git describe --tags --long | grep -o '^v[^.]*\.[^.-]*' | sed s/^v//`"
             VERSION="$cleanversion.$revisioncount"
 
@@ -42,8 +38,7 @@ jobs:
             ./configure
             make
             make dist
-            #tar xf- ${PACKAGE}-*.tar.gz | tar -I'pixz -9ep'`nproc` -cf ../${PACKAGE}-${VERSION}.tar.xz
-            gunzip -c ${PACKAGE}-*.tar.gz | pixz -9ep`nproc` > ../${PACKAGE}-${VERSION}.tar.xz
+            pigz -cd ${PACKAGE}-*.tar.gz | pixz -9ep`nproc` > ../${PACKAGE}-${VERSION}.tar.xz
             #cd ..
             #rm -rf ${PACKAGE}-${VERSION}
             #tar xf ${PACKAGE}-${VERSION}.tar.xz
@@ -97,40 +92,8 @@ jobs:
             mkdir -v tmp
             mv -v *.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz tmp
             #mv -v *.buildinfo *.changes *.dsc *.deb *.tar.xz tmp
-            #mv -v *.buildinfo *.changes *.dsc *.deb tmp
 
-            #cd $OLDDIR
-            ##git config --global user.email 'InnovAnon-Inc@protonmail.com'
-            ##git config --global user.name  'CircleCI'
-            #git remote set-url origin https://github.com:${GITHUB_TOKEN}@github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
-            #git tag v$VERSION
-            #git push
-            #git push --tags
-            #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} /tmp/build/${PACKAGE}/${VERSION}/tmp
-
-            #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} tmp
-            #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete -replace v${VERSION} tmp
-            #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -soft v${VERSION} tmp
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} v${VERSION} tmp
-            #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} v${VERSION} /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
-            #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
-
-            #cd $OLDDIR
-            ##git config --global user.email 'InnovAnon-Inc@protonmail.com'
-            ##git config --global user.name  'CircleCI'
-            #git remote set-url origin https://github.com:${GITHUB_TOKEN}@github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
-            #git tag v$VERSION
-            #git push
-            #git push --tags
-            #
-            ##github-release release --security-token $GITHUB_TOKEN --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME \
-            ##  --tag v$VERSION
-            #
-            ##github-release upload  --security-token $GITHUB_TOKEN --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME \
-            ##  --tag v$VERSION --name 'source package' --file /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
-            #
-            #curl --data '{"tag_name": "'v$VERSION'","target_commitish": "master","name": "'v$VERSION'","body": "Release of version '$VERSION'","draft": false,"prerelease": false}' https://api.github.com/repos/InnovAnon-Inc/$CIRCLE_PROJECT_REPONAME/releases?access_token=$GITHUB_TOKEN
-            #curl 'https://api.github.com/repos/InnovAnon-Inc/'$CIRCLE_PROJECT_USERNAME'/releases/:id/assets?access_token='${GITHUB_TOKEN}'&name='${PACKAGE}-${VERSION}.tar.xz' --header 'Content-Type: application/zip' --upload-file /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz -X POST
 
             # TODO dupload debs and friends
 
@@ -161,8 +124,4 @@ workflows:
             branches:
               only:
                 - master
-    #filters:
-    #  branches:
-    #    only:
-    #      - master
 
