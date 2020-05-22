@@ -34,6 +34,7 @@ jobs:
             cd        /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
             ./autogen.sh
             rm -v autogen.sh
+            find . -name configure.ac -delete
             tar --exclude-vcs --exclude-vcs-ignores -I'pixz -9ep'`nproc` -cf \
                                                     ../${PACKAGE}-${VERSION}.tar.xz .
             # TODO test change
@@ -95,8 +96,8 @@ jobs:
             #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
 
             cd $OLDDIR
-            git config --global user.email 'InnovAnon-Inc@protonmail.com'
-            git config --global user.name  'CircleCI'
+            #git config --global user.email 'InnovAnon-Inc@protonmail.com'
+            #git config --global user.name  'CircleCI'
             git remote set-url origin https://github.com:${GITHUB_TOKEN}@github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
             git tag v$VERSION
             git push
@@ -107,6 +108,8 @@ jobs:
 
             github-release upload  --security-token $GITHUB_TOKEN --user $CIRCLE_PROJECT_USERNAME --repo $CIRCLE_PROJECT_REPONAME \
               --tag v$VERSION --name 'source package' --file /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
+
+            curl --data '{"tag_name": "'v$VERSION'","target_commitish": "master","name": "'v$VERSION'","body": "Release of version '$VERSION'","draft": false,"prerelease": false}' https://api.github.com/repos/InnovAnon-Inc/$CIRCLE_PROJECT_REPONAME/releases?access_token=$GITHUB_TOKEN
 
             # TODO dupload debs and friends
 
