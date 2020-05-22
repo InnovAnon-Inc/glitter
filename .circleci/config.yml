@@ -1,10 +1,6 @@
 version: 2.1
 jobs:
   build:
-    filters:
-      branches:
-        only:
-          master
     docker: 
       - image: innovanon/poobuntu-ci:latest
     #parallelism: 4
@@ -156,6 +152,10 @@ workflows:
   commit:
     jobs:
       - build
+          filters:
+            branches:
+              only:
+                - master
     #filters:
     #  branches:
     #    only:
