@@ -69,7 +69,7 @@ jobs:
             if [ $PACKAGE = yacs ] ; then
               echo 'bin/*'                        >> debian/${PACKAGE}1.install
             fi
-            if [ -e doxygen.cfg ] ; then
+            if [ -e m4/doxygen.cfg ] ; then
               echo 'doxygen-doc/man/man1/*'       >> debian/manpages
 
               sed -e '/Format.*sgml/d' \

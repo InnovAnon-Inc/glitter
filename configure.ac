@@ -27,8 +27,8 @@ DX_RTF_FEATURE(OFF)
 DX_XML_FEATURE(ON)
 DX_PDF_FEATURE(ON)
 DX_PS_FEATURE(ON)
-#DX_INIT_DOXYGEN($(PROJECT), doxygen.cfg)
-DX_INIT_DOXYGEN(glitter, doxygen.cfg)
+#DX_INIT_DOXYGEN($(PROJECT), m4/doxygen.cfg)
+DX_INIT_DOXYGEN(glitter, m4/doxygen.cfg)
 
 AC_CHECK_HEADERS([stdbool.h])
 
