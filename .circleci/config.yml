@@ -93,7 +93,17 @@ jobs:
             mv -v *.buildinfo *.changes *.dsc *.deb ${PACKAGE}-${VERSION}.tar.xz tmp
             #mv -v *.buildinfo *.changes *.dsc *.deb *.tar.xz tmp
             #mv -v *.buildinfo *.changes *.dsc *.deb tmp
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} tmp
+
+            cd $OLDDIR
+            #git config --global user.email 'InnovAnon-Inc@protonmail.com'
+            #git config --global user.name  'CircleCI'
+            git remote set-url origin https://github.com:${GITHUB_TOKEN}@github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
+            git tag v$VERSION
+            git push
+            git push --tags
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} /tmp/build/${PACKAGE}/${VERSION}/tmp
+
+            #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} tmp
             #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete -replace v${VERSION} tmp
             #~/go/bin/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -soft v${VERSION} tmp
             #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} v${VERSION} tmp
