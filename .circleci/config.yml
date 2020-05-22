@@ -151,7 +151,7 @@ workflows:
   version: 2.1
   commit:
     jobs:
-      - build
+      - build:
           filters:
             branches:
               only:
