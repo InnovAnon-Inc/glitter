@@ -147,4 +147,9 @@ jobs:
       #    path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}-1.debian.tar.xz
       #- store_artifacts:
       #    path: /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}_${VERSION}.orig.tar.xz
+workflows:
+  version: 2.1
+  commit:
+    jobs:
+      - build
 
