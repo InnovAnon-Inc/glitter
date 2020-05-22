@@ -32,14 +32,18 @@ jobs:
             mkdir -pv /tmp/build/${PACKAGE}/${VERSION}
             cp -vr .  /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
             cd        /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}
+
+            # make source package
             ./autogen.sh
-            rm -v autogen.sh
-            find . -name configure.ac -delete
-            tar --exclude-vcs --exclude-vcs-ignores -I'pixz -9ep'`nproc` -cf \
-                                                    ../${PACKAGE}-${VERSION}.tar.xz .
-            # TODO test change
-            #./configure
-            #make
+            ./configure
+            make dist
+            tar xf- ${PACKAGE}-*.tar.gz | tar -I'pixz -9ep'`proc` -cf ../${PACKAGE}-${VERSION}.tar.xz
+            cd ..
+            rm -rf ${PACKAGE}-${VERSION}
+            tar xf ${PACKAGE}-${VERSION}.tar.xz
+            cd     ${PACKAGE}-${VERSION}
+            #tar --exclude-vcs --exclude-vcs-ignores -I'pixz -9ep'`nproc` -cf \
+            #                                        ../${PACKAGE}-${VERSION}.tar.xz
 
             # debianize source package
             DEBFULLNAME='InnovAnon, Inc. (Ministries)'     \
