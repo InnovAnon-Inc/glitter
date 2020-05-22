@@ -95,6 +95,9 @@ jobs:
             #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v${VERSION} /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
 
             cd $OLDDIR
+            git config --global user.email 'InnovAnon-Inc@protonmail.com'
+            git config --global user.name  'CircleCI'
+            git remote set-url origin https://github.com:${GITHUB_TOKEN}@github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
             git tag v$VERSION
             git push
             git push --tags
