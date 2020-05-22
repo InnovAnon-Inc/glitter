@@ -13,10 +13,6 @@ jobs:
       - run:
           command: |
             set -exu
-            apt-fast install curl
-      - run:
-          command: |
-            set -exu
             #git clone --depth=1 --recursive https://github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
             git clone --recursive https://github.com/InnovAnon-Inc/${CIRCLE_PROJECT_REPONAME}.git
             cd                                                               ${CIRCLE_PROJECT_REPONAME}
