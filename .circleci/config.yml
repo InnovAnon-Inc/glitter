@@ -43,8 +43,7 @@ jobs:
             make
             make dist
             #tar xf- ${PACKAGE}-*.tar.gz | tar -I'pixz -9ep'`nproc` -cf ../${PACKAGE}-${VERSION}.tar.xz
-            #gunzip -c ${PACKAGE}-*.tar.gz | pixz -9ep`nproc` > ../${PACKAGE}-${VERSION}.tar.xz
-            gunzip -c ${PACKAGE}-*.tar.gz | pixz -9ep`nproc` > ${PACKAGE}-${VERSION}.tar.xz
+            gunzip -c ${PACKAGE}-*.tar.gz | pixz -9ep`nproc` > ../${PACKAGE}-${VERSION}.tar.xz
             #cd ..
             #rm -rf ${PACKAGE}-${VERSION}
             #tar xf ${PACKAGE}-${VERSION}.tar.xz
