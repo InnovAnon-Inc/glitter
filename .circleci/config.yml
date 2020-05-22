@@ -118,7 +118,7 @@ jobs:
             #  --tag v$VERSION --name 'source package' --file /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz
 
             curl --data '{"tag_name": "'v$VERSION'","target_commitish": "master","name": "'v$VERSION'","body": "Release of version '$VERSION'","draft": false,"prerelease": false}' https://api.github.com/repos/InnovAnon-Inc/$CIRCLE_PROJECT_REPONAME/releases?access_token=$GITHUB_TOKEN
-            curl 'https://api.github.com/repos/InnovAnon-Inc/'$CIRCLE_PROJECT_USERNAME'/releases/:id/assets?access_token='${GITHUB_TOKEN}'&name='${PACKAGE}-${VERSION}.tar.xz' --header 'Content-Type: application/zip' --upload-file /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE{-${VERSION}.tar.xz -X POST
+            curl 'https://api.github.com/repos/InnovAnon-Inc/'$CIRCLE_PROJECT_USERNAME'/releases/:id/assets?access_token='${GITHUB_TOKEN}'&name='${PACKAGE}-${VERSION}.tar.xz' --header 'Content-Type: application/zip' --upload-file /tmp/build/${PACKAGE}/${VERSION}/${PACKAGE}-${VERSION}.tar.xz -X POST
 
             # TODO dupload debs and friends
 
