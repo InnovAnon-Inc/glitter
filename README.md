@@ -20,3 +20,7 @@ and libinnovanon-inc-util seems a bit absurd.
 
 ![Corporate Logo](https://i.imgur.com/UD8y4Is.gif)
 
+[![CodeFactor](https://www.codefactor.io/repository/github/InnovAnon-Inc/glitter/badge)](https://www.codefactor.io/repository/github/InnovAnon-Inc/glitter/)
+
+[![LoC](https://tokei.rs/b1/github/InnovAnon-Inc/glitter/?category=code)](https://github.com/InnovAnon-Inc/glitter/)
+
