@@ -14,9 +14,9 @@ and libinnovanon-inc-util seems a bit absurd.
 
 <https://tldrlegal.com/license/unlicense#summary>
 
-[![InnovAnon, Inc.](https://img.shields.io/github/commits-since/InnovAnon-Inc/glitter/latest?color=%23FF1100&include_prereleases&logo=InnovAnon%2C%20Inc.&logoColor=%23FF1133&style=plastic)
+![InnovAnon, Inc.](https://img.shields.io/github/commits-since/InnovAnon-Inc/glitter/latest?color=%23FF1100&include_prereleases&logo=InnovAnon%2C%20Inc.&logoColor=%23FF1133&style=plastic)
 
-[![InnovAnon, Inc.](https://img.shields.io/github/repo-size/InnovAnon-Inc/glitter?color=%23FF1100&logo=InnovAnon%2C%20Inc.&logoColor=%23FF1133&style=plastic)
+![InnovAnon, Inc.](https://img.shields.io/github/repo-size/InnovAnon-Inc/glitter?color=%23FF1100&logo=InnovAnon%2C%20Inc.&logoColor=%23FF1133&style=plastic)
 
-[![InnovAnon, Inc.](https://img.shields.io/librariesio/github/InnovAnon-Inc/glitter?color=%23FF1100&style=plastic)
+![InnovAnon, Inc.](https://img.shields.io/librariesio/github/InnovAnon-Inc/glitter?color=%23FF1100&style=plastic)
 
