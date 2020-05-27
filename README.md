@@ -16,5 +16,5 @@ and libinnovanon-inc-util seems a bit absurd.
 
 ![InnovAnon, Inc.](https://img.shields.io/librariesio/github/InnovAnon-Inc/glitter?color=%23FF1100&style=plastic)
 
-[![InnovAnon, Inc.](https://img.shields.io/github/license/InnovAnon-Inc/glitter?color=%23FF1100&label=Free%20Code%20for%20a%20Free%20World%21&logo=InnovAnon%2C%20Inc.&logoColor=%23FF1133&style=plastic)](https://unlicense.org/)
+[![InnovAnon, Inc.](https://img.shields.io/github/license/InnovAnon-Inc/glitter?color=%23FF1100&label=Free%20Code%20for%20a%20Free%20World%21&logo=InnovAnon%2C%20Inc.&logoColor=%23FF1133&style=plastic)](https://tldrlegal.com/license/unlicense#summary)
 
