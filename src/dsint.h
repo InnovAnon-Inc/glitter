@@ -4,8 +4,6 @@
 #ifndef _DSINT_H_
 #define _DSINT_H_
 
-PREDEFINED = DOXYGEN
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -13,8 +11,9 @@ extern "C" {
 #include <glitter.h>
 
 /** @return whether the datastructure is at full capacity */
+typedef
 #ifndef DOXYGEN
-typedef __attribute__ ((nonnull (1), warn_unused_result))
+__attribute__ ((nonnull (1), warn_unused_result))
 #endif
 bool (*isfull_t) (void const *restrict arg) ;
 
