@@ -17,8 +17,7 @@ extern "C" {
 #endif
 
 /** @return whether the datastructure is at full capacity */
-typedef
-ATTRIBUTE((nonnull (1), warn_unused_result))
+typedef ATTRIBUTE((nonnull (1), warn_unused_result))
 bool (*isfull_t) (void const *restrict arg) ;
 
 /** @return whether the datastructure is at empty capacity */
