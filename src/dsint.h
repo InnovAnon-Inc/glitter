@@ -10,11 +10,15 @@ extern "C" {
 
 #include <glitter.h>
 
+#ifndef DOXYGEN
+#define ATTRIBUTE(attr) __attribute__ (attr)
+#else
+#define ATTRIBUTE(attr)
+#endif
+
 /** @return whether the datastructure is at full capacity */
 typedef
-#ifndef DOXYGEN
-__attribute__ ((nonnull (1), warn_unused_result))
-#endif
+ATTRIBUTE((nonnull (1), warn_unused_result))
 bool (*isfull_t) (void const *restrict arg) ;
 
 /** @return whether the datastructure is at empty capacity */
