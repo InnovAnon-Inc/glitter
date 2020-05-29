@@ -1,4 +1,6 @@
-/** D(ata) S(tructure) Int(erfaces)
+/**
+ * @file disint.h
+ * @brief D(ata) S(tructure) Int(erfaces)
  * pronounced "decent," "descent," or "dissent" */
 
 #ifndef _DSINT_H_
