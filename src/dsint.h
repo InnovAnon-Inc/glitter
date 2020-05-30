@@ -1,5 +1,5 @@
 /**
- * @file disint.h
+ * @file
  * @brief D(ata) S(tructure) Int(erfaces)
  * pronounced "decent," "descent," or "dissent" */
 
